@@ -67,30 +67,63 @@ const MyComponent = () => {
 
 ---
 
-## OrientationPanel Example
+## Full Example
 
-A sample with a ready to use component for test and visualization is available in the sample folder:
+A sample is available at the github page of this project that illustrates how to wire the hook in an React application
 
-```tsx
+---
+
+## Using DeviceOrientationProvider (React Context)
+If your app has multiple components that need device orientation, or if you’re using a router-based application, calling the hook separately in each component may not be ideal. Instead, it can be more convenient to use a context provider. This approach ensures that orientation is tracked once and the values are shared across all components, simplifying your code and preventing multiple event listeners.
+
+**Example:**
+```typescript
+// App.tsx
 import React from "react";
+import { DeviceOrientationProvider } from "ipad-device-orientation";
 import { OrientationPanel } from "./components/OrientationPanel";
+import { AnotherComponent } from "./components/AnotherComponent";
 
+// Wrapp with DeviceOrientationProvider any component that may require orientation
 const App: React.FC = () => {
   return (
-    <div>
-      <OrientationPanel />
-    </div>
+          <DeviceOrientationProvider>
+            <OrientationPanel />
+            <AnotherComponent />
+          </DeviceOrientationProvider>
   );
 };
 
 export default App;
 ```
+**Consuming the Context**
+```typescript
+import React from "react";
+import { useDeviceOrientationContext } from "ipad-device-orientation";
 
-- Displays Yaw, Pitch, Roll.
-- Includes a button to request permission on iOS.
-- Includes a button to reset yaw.
+export const AnotherComponent: React.FC = () => {
+  const { yaw, pitch, roll, resetYaw, permissionGranted, requestPermission } =
+    useDeviceOrientationContext();
 
----
+  return (
+    <div>
+      <h3>Device Orientation:</h3>
+      <div>Yaw: {yaw.toFixed(1)}°</div>
+      <div>Pitch: {pitch.toFixed(1)}°</div>
+      <div>Roll: {roll.toFixed(1)}°</div>
+      {!permissionGranted && (
+        <button onClick={requestPermission}>Enable Orientation</button>
+      )}
+      <button onClick={resetYaw}>Reset Yaw</button>
+    </div>
+  );
+};
+```
+**Benefits**
+
+- Single source of truth: Orientation is tracked only once, even if multiple components consume the context.
+- Persistent state: On iOS, device orientation events require explicit user permission. Once granted, the context remains active across navigation, so components do not need to request permission again.
+- Cleaner code: Components can consume orientation values from the context without each calling useDeviceOrientation individually, reducing duplication and multiple event listeners.
 
 ## iOS HTTPS Requirement
 
