@@ -1,0 +1,14 @@
+# Ignore everything not needed for publishing
+node_modules/
+.idea/
+*.tgz
+
+# Environment files
+.env*
+
+# Ignore sample folder
+sample/
+
+# Ignore source builds if you don't want to publish src
+src/
+build/

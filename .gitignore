@@ -1,0 +1,17 @@
+node_modules/
+.idea/
+*.tgz
+
+# RIA license
+**/luciadria_*.txt
+
+# production
+**/dist/
+**/build/
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
