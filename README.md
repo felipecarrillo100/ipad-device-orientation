@@ -69,7 +69,7 @@ const MyComponent = () => {
 
 ## OrientationPanel Example
 
-A prebuilt panel component for quick integration:
+A sample with a ready to use component for test and visualization is available in the sample folder:
 
 ```tsx
 import React from "react";
