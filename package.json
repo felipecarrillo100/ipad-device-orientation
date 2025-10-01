@@ -20,5 +20,8 @@
   "peerDependencies": {
     "react": ">=18",
     "react-dom": ">=18"
+  },
+  "repository": {
+    "url": "https://github.com/felipecarrillo100/ipad-device-orientation"
   }
 }
