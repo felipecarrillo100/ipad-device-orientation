@@ -1,9 +1,9 @@
 import React from "react";
-import { useDeviceOrientation } from "../../../src";
+import {useDeviceOrientationContext} from "../../../src";
 
 export const OrientationPanel: React.FC = () => {
     const { yaw, pitch, roll, resetYaw, permissionGranted, requestPermission } =
-        useDeviceOrientation();
+        useDeviceOrientationContext();
 
     return (
         <div

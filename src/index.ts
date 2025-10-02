@@ -5,5 +5,5 @@ export { useDeviceOrientation } from "./useDeviceOrientation";
 export {
     DeviceOrientationProvider,
     useDeviceOrientationContext,
-    DeviceOrientationContextValue, // optional, for typing
+    type DeviceOrientationContextValue, // optional, for typing
 } from "./DeviceOrientationContext";

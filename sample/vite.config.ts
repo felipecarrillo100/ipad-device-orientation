@@ -14,7 +14,7 @@ export default defineConfig({
     ],
 
     server: {
-        port: 5173, // you can change this if needed
+        port: 5174, // you can change this if needed
     },
 
     build: {
