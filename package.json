@@ -1,7 +1,7 @@
 {
   "name": "ipad-device-orientation",
   "description": "A React hook package that allows reading iPad device orientation accurately (yaw, pitch, roll).",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
