@@ -148,8 +148,11 @@ export function useDeviceOrientation() {
         yawDeg = normalize(yawDeg - (yawOffsetRef.current ?? 0));
         rollDeg = normalize(rollDeg);
 
-        setYaw(-yawDeg);
+        // Apply corrections: 180° shift and direction-change to user-facing 'yaw'
+        setYaw(normalize( 180 - yawDeg));
+        // Pitch can go as it is
         setPitch(pitchDeg);
+        // Apply corrections: direction-change to user-facing 'pitch'
         setRoll(-rollDeg);
     }, []);
 
