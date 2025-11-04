@@ -97,6 +97,19 @@ export function useDeviceOrientation(throttleHz = 30) {
         return window.innerWidth > window.innerHeight ? 90 : 0;
     }
 
+    // ✅ Step A fix — update orientation on UI rotation change
+    useEffect(() => {
+        const updateScreenRotation = () => {
+            screenOrientRef.current = getScreenRotation();
+        };
+        window.addEventListener("orientationchange", updateScreenRotation);
+        window.addEventListener("resize", updateScreenRotation);
+        return () => {
+            window.removeEventListener("orientationchange", updateScreenRotation);
+            window.removeEventListener("resize", updateScreenRotation);
+        };
+    }, []);
+
     // ------------------- Throttled Update -------------------
     useEffect(() => {
         const intervalMs = 1000 / throttleHz;
