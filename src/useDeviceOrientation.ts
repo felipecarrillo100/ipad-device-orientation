@@ -39,6 +39,13 @@ function setFromAxisAngle(axis: [number, number, number], angleRad: number): Qua
 // Normalize angle to [-180, 180]
 const normalize = (angle: number) => ((angle + 180) % 360 + 360) % 360 - 180;
 
+// Detect platform (default iOS)
+function detectPlatform(): "ios" | "android" {
+    const ua = navigator.userAgent || navigator.vendor || "";
+    if (/android/i.test(ua)) return "android";
+    return "ios"; // default
+}
+
 // ------------------- Hook -------------------
 export function useDeviceOrientation(throttleHz = 30) {
     const [yaw, setYaw] = useState(0);
@@ -49,6 +56,7 @@ export function useDeviceOrientation(throttleHz = 30) {
     const yawOffsetRef = useRef<number | null>(null);
     const rawRef = useRef({ alpha: 0, beta: 0, gamma: 0 });
     const screenOrientRef = useRef(getScreenRotation());
+    const platformRef = useRef<"ios" | "android">(detectPlatform());
 
     const resetYaw = useCallback(() => { yawOffsetRef.current = null; }, []);
 
@@ -97,7 +105,7 @@ export function useDeviceOrientation(throttleHz = 30) {
         return window.innerWidth > window.innerHeight ? 90 : 0;
     }
 
-    // ✅ Step A fix — update orientation on UI rotation change
+    // Update orientation on UI rotation change
     useEffect(() => {
         const updateScreenRotation = () => {
             screenOrientRef.current = getScreenRotation();
@@ -158,7 +166,9 @@ export function useDeviceOrientation(throttleHz = 30) {
                 yawDeg = normalize(yawDeg - (yawOffsetRef.current ?? 0));
                 rollDeg = normalize(rollDeg);
 
-                setYaw(normalize(180 - yawDeg));
+                // ✅ Apply correction based on detected platform
+                const correction = platformRef.current === "ios" ? 180 : -90;
+                setYaw(normalize(correction - yawDeg));
                 setPitch(pitchDeg);
                 setRoll(-rollDeg);
 
